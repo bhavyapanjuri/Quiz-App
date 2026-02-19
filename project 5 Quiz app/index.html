@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Gamified Quiz Master</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="particles"></div>
+    
+    <!-- Home Screen -->
+    <div class="screen active" id="homeScreen">
+        <div class="glass-card home-card">
+            <h1 class="title">🎯 Quiz Master</h1>
+            <p class="subtitle">Test Your Knowledge & Level Up!</p>
+            
+            <div class="user-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Level</span>
+                    <span class="stat-value" id="userLevel">1</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">XP</span>
+                    <span class="stat-value" id="userXP">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Streak</span>
+                    <span class="stat-value" id="userStreak">0</span>
+                </div>
+            </div>
+
+            <div class="category-selection">
+                <h3>Choose Your Challenge</h3>
+                <div class="categories" id="categoriesContainer">
+                    <button class="category-btn" data-category="science">🔬 Science</button>
+                    <button class="category-btn" data-category="programming">💻 Programming</button>
+                    <button class="category-btn" data-category="general">🌍 General</button>
+                    <button class="category-btn" data-category="math">🔢 Math</button>
+                </div>
+            </div>
+
+            <button class="btn-primary" id="startBtn">Start Quiz</button>
+            <button class="btn-secondary" id="createQuizBtn">➕ Create Quiz</button>
+            <button class="btn-secondary" id="leaderboardBtn">🏆 Leaderboard</button>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
+    </div>
+
+    <!-- Programming Config Screen -->
+    <div class="screen" id="programmingScreen">
+        <div class="glass-card home-card">
+            <h2>💻 Select Programming Language</h2>
+            <div class="category-selection">
+                <div class="categories">
+                    <button class="category-btn" data-lang="dbms">🗄️ DBMS</button>
+                    <button class="category-btn" data-lang="python">🐍 Python</button>
+                    <button class="category-btn" data-lang="java">☕ Java</button>
+                    <button class="category-btn" data-lang="c">⚙️ C Language</button>
+                </div>
+            </div>
+            <div class="question-count-selector">
+                <label>Number of Questions:</label>
+                <input type="number" id="progQuestionCount" value="10" min="5" max="10" class="input-field">
+            </div>
+            <div class="result-buttons">
+                <button class="btn-primary" id="startProgQuizBtn">Start Quiz</button>
+                <button class="btn-secondary" id="backToHomeBtn">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div class="screen" id="quizScreen">
+        <div class="quiz-header">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="quiz-info">
+                <span id="questionNumber">Question 1/10</span>
+                <span class="timer" id="timer">⏱️ 15s</span>
+                <span class="score-display">Score: <span id="currentScore">0</span></span>
+            </div>
+        </div>
+
+        <div class="glass-card quiz-card">
+            <div class="difficulty-badge" id="difficultyBadge">Medium</div>
+            <h2 class="question" id="question">Loading question...</h2>
+            <div class="options" id="options"></div>
+            <div class="streak-indicator" id="streakIndicator">🔥 Streak: <span id="streakCount">0</span></div>
+        </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div class="screen" id="resultScreen">
+        <div class="glass-card result-card">
+            <div class="result-animation" id="resultAnimation"></div>
+            <h1 class="result-title" id="resultTitle">Quiz Complete!</h1>
+            <div class="final-score" id="finalScore">0</div>
+            <div class="result-stats">
+                <div class="result-stat">
+                    <span class="result-label">Accuracy</span>
+                    <span class="result-value" id="accuracy">0%</span>
+                </div>
+                <div class="result-stat">
+                    <span class="result-label">Correct</span>
+                    <span class="result-value" id="correctCount">0</span>
+                </div>
+                <div class="result-stat">
+                    <span class="result-label">XP Gained</span>
+                    <span class="result-value" id="xpGained">+0</span>
+                </div>
+            </div>
+            <div class="badge-earned" id="badgeEarned"></div>
+            <div class="result-buttons">
+                <button class="btn-primary" id="playAgainBtn">Play Again</button>
+                <button class="btn-secondary" id="homeBtn">Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaderboard Screen -->
+    <div class="screen" id="leaderboardScreen">
+        <div class="glass-card leaderboard-card">
+            <h2>🏆 Leaderboard</h2>
+            <div class="leaderboard-list" id="leaderboardList"></div>
+            <button class="btn-secondary" id="backBtn">Back</button>
+        </div>
+    </div>
+
+    <!-- Create Quiz Screen -->
+    <div class="screen" id="createQuizScreen">
+        <div class="glass-card create-quiz-card">
+            <h2>✨ AI Quiz Generator</h2>
+            <div class="create-form">
+                <input type="text" id="quizTopic" placeholder="Enter Quiz Topic (e.g., React Hooks, World War 2, Photosynthesis)" class="input-field">
+                <input type="number" id="questionCount" placeholder="Number of Questions (5-10)" class="input-field" min="5" max="10" value="5">
+                <button class="btn-primary" id="generateAIQuizBtn">🤖 Generate Quiz with AI</button>
+                <div id="loadingMessage" style="display:none; text-align:center; margin:20px 0; font-size:1.2rem;">
+                    ⏳ Generating quiz questions...
+                </div>
+                <div id="questionsContainer"></div>
+                <div class="create-buttons" id="saveButtons" style="display: none;">
+                    <button class="btn-primary" id="saveQuizBtn">Save Quiz</button>
+                    <button class="btn-secondary" id="cancelQuizBtn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="correctSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIGGS57OihUBELTKXh8bllHAU2jdXvzn0pBSh+zPDhkj4KFV+16+upVhQKRp/g8r5sIQUrgc7y2Yk2CBhkuezooVARCw=="></audio>
+    <audio id="wrongSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIGGS57OihUBELTKXh8bllHAU2jdXvzn0pBSh+zPDhkj4KFV+16+upVhQKRp/g8r5sIQUrgc7y2Yk2CBhkuezooVARCw=="></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
